@@ -13,9 +13,7 @@ urllib3.disable_warnings()
 #status_code = False
 th = 200
 result = '未找到相关cms'
-scanurl = ''
-url = ''
-dict_md5 = ''
+scanurl, url, dict_md5= '', '', ''
 echo = True
 
 def get_cmd_data():
