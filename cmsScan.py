@@ -13,6 +13,7 @@ urllib3.disable_warnings()
 #status_code = False
 th = 200
 result = '未找到相关cms'
+scanurl = ''
 url = ''
 dict_md5 = ''
 echo = True
@@ -47,11 +48,12 @@ def get_urlcms_md5(url):
     return hashlib.md5(req).hexdigest()
 
 def check(lit):
-    global status_code, result
+    global status_code, result, scanurl
     for i in lit:
         try:
             if get_urlcms_md5(url + i[0]) == i[2]:
                 result = i[1]
+                scanurl = url + i[0]
                 #status_code = True
                 break
             else:
@@ -96,7 +98,7 @@ def run_time():
     t1 = time.time()
     run(th)
     t2 = time.time()
-    return result, str(t2 - t1)[0:4]
+    return result, str(t2 - t1)[0:4], scanurl
 
 if __name__=='__main__':
     print('''
@@ -110,7 +112,18 @@ if __name__=='__main__':
 ---------------------------------------------------------------------------------------------------------''')
     get_cmd_data()
     time.sleep(1)
-    cmsname, ytime = run_time()
+    cmsname, ytime, scanurl = run_time()
     print('---------------------------------------------------------------------------------------------------------')
-    print('Webcms：{} 用时{}s'.format(cmsname, ytime))
+    print('                                 Webcms url：{}'.format(scanurl))
+    print('---------------------------------------------------------------------------------------------------------')
+    print('''
+        result：
+      ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___
+                                                 
+    |                                             |
+            Webcms: {} 用时{}s             
+    |                                             |
+      ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___
+
+    '''.format(cmsname, ytime))
 
