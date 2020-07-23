@@ -13,7 +13,7 @@ urllib3.disable_warnings()
 #status_code = False
 th = 200
 result = '未找到相关cms'
-scanurl, url, dict_md5= '', '', ''
+scanurl, url, dict_md5, server= '', '', '', ''
 echo = True
 
 def get_cmd_data():
@@ -42,16 +42,17 @@ def get_cmd_data():
 
 def get_urlcms_md5(url):
     header = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36",}
-    req = requests.get(url, headers=header, timeout=1, verify=False).content
-    return hashlib.md5(req).hexdigest()
+    req = requests.get(url, headers=header, timeout=1, verify=False)
+    return hashlib.md5(req.content).hexdigest()
 
 def check(lit):
-    global status_code, result, scanurl
+    global status_code, result, scanurl, server
     for i in lit:
         try:
             if get_urlcms_md5(url + i[0]) == i[2]:
                 result = i[1]
                 scanurl = url + i[0]
+                server = requests.get(scanurl, headers={"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"}, timeout=1, verify=False).headers['Server']
                 #status_code = True
                 break
             else:
@@ -116,12 +117,12 @@ if __name__=='__main__':
     print('---------------------------------------------------------------------------------------------------------')
     print('''
         result：
-      ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___
+      ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___
                                                  
-    |                                             |
-            Webcms: {} 用时{}s             
-    |                                             |
-      ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___
+    |                                                    |
+         Webcms: {} | Server: {} | 用时{}s                  
+    |                                                    |
+      ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___ ___
 
-    '''.format(cmsname, ytime))
+    '''.format(cmsname, server, ytime))
 
