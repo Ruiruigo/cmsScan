@@ -23,4 +23,3 @@ python3 cmsScan.py -u <URL> -f <字典文件> -t <线程，默认150线程>
 ![cmsScan](./imgs/cmsScan.png)
 
 ![cmsScan-2](./imgs/cmsScan-2.png)
-
